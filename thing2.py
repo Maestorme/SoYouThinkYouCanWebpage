@@ -7,6 +7,9 @@ import wave
 import http.client, urllib.parse, json
 import requests, webbrowser
 
+from pynput.keyboard import Key, Listener
+#import pyautogui
+
 THRESHOLD = 500
 CHUNK_SIZE = 1024
 FORMAT = pyaudio.paInt16
@@ -136,10 +139,53 @@ def new_html(webpg_name):
     webbrowser.open_new_tab('helloworld.html')
 
 
-if __name__ == '__main__':
+
+
+def on_press(key):
+    key_press = key
+    #print("PRESSED", key_press)
+    if key_press == Key.space:
+        #print("A HEARD!")
+        main()
+    if key_press == Key.esc:
+        exit()
+
+def play_beep():
+    chunk = CHUNK_SIZE
+    wf = wave.open('beep.wav', 'rb')
+
+    # create an audio object
+    p = pyaudio.PyAudio()
+
+    # open stream based on the wave object which has been input.
+    stream = p.open(format =
+                    p.get_format_from_width(wf.getsampwidth()),
+                    channels = wf.getnchannels(),
+                    rate = wf.getframerate(),
+                    output = True)
+
+    # read data (based on the chunk size)
+    data = wf.readframes(chunk)
+    counter = 0
+
+    # play stream (looping from beginning of file to the end)
+    while data != '' or counter > 100:
+        # writing to the stream is what *actually* plays the sound.
+        stream.write(data)
+        data = wf.readframes(chunk)
+        counter += 1
+
+    # cleanup stuff.
+    #stream.close()    
+    #p.terminate()
+    print("Done")
+
+def main():
+    #play_beep()
     print("please speak a word into the microphone")
     record_to_file('demo2.wav')
     print("done - result written to demo.wav")
+    ##play_beep()
 
     apiKey = "fccfe347ad474720b3f796bb2dbb59b9"
 
@@ -159,13 +205,23 @@ if __name__ == '__main__':
     #print(response.read())
     print(response.status, response.reason)  
     json_data = json.loads(response.read())
-    #print(json.dumps(json_data, indent=4))
-    converted = json_data["NBest"][1]['Lexical']
+    print(json.dumps(json_data, indent=4))
+    if json_data["RecognitionStatus"] != "Success":
+        main()
+    converted = json_data["NBest"][0]['Lexical']
     new_data = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/82a89dc2-4a08-4e07-9fc5-d78be0a2df05?subscription-key=29647c98e81f4307b5dd2e5e369c9aed&spellCheck=true&bing-spell-check-subscription-key=6e38fbc3d86e4723aae5c6920126f288&verbose=true&timezoneOffset=0&q="+converted
     r = requests.get(new_data)
+    #print(r.json())
     checking = r.json()["topScoringIntent"]["intent"]
-    print(checking)
-    print(checking == "CreateWebpge")
+    
+    #print(checking);
+
     if(checking == "CreateWebpge"):
         webpg_name = 'my_html'
         new_html(webpg_name)
+
+
+    with Listener(on_press=on_press) as listener:
+        listener.join()
+
+main()
