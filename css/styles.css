@@ -1,16 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:100|Roboto:100|VT323|Cinzel');
+@import url('https://fonts.googleapis.com/css?family=Raleway:100|Roboto:100');
 
-@font-face {
-  font-family: 'Glober';
-  src: url('../fonts/glober.otf');
-}
 
 
 html {
   height: 100%;
   margin: 0;
-  /*background: url(../img/bg.gif) no-repeat center center;*/
-  -webkit-background-size: cover;
+  /*background: url(../img/3.jpg) no-repeat center center;*/
+  background-color: black;
+  -webkit-background-size: cover ;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
@@ -41,7 +38,7 @@ body {
   width: 100%;
   min-height: 100%;
   opacity: 1;
-  background-color: black;
+  /*background-color: black;*/
   padding-top: 6em;
   margin-bottom: 0;
 }
@@ -49,6 +46,19 @@ body {
 
 #home img{
   margin: 0;
+}
+
+#title {
+  margin: 0px;
+  padding-top: 0px;
+  text-align: center;
+  font-family: 'roboto', sans-serif;
+  color: white;
+  font-size: 7.2vw;
+  letter-spacing: 10px;
+  font-weight: 500;
+  -webkit-animation: hue 60s infinite linear
+  box-shadow: 10px 10px 8px #888888;
 }
 
 #home h1{
@@ -76,17 +86,7 @@ body {
 }
 
 
-#title {
-  margin: 0px;
-  padding-top: 0px;
-  text-align: center;
-  font-family: 'Glober', sans-serif;
-  color: white;
-  font-size: 5.2vw;
-  letter-spacing: 10px;
-  font-weight: 100;
-  -webkit-animation:  hue 60s infinite linear
-}
+
 
 #page-text {
   margin: 0px;
@@ -144,7 +144,7 @@ body {
 .about {
   position: relative;
   /*background-image: ADD SOMETHING FOR THE BREAK BETWEEN TWO DIVS AS IT LOOKS UGLY*/
-  pointer-events: none;  /*THIS LINE IS TO CLICK THROUGH THE DIV AND CLICK ON SOMETHING UNDERNEATH IT*/
+    /*THIS LINE IS TO CLICK THROUGH THE DIV AND CLICK ON SOMETHING UNDERNEATH IT*/
   box-shadow: 0px 1px 20px -20px #2b3c51;
 }
 .about img {
@@ -157,12 +157,25 @@ body {
 .about p{
   margin: 0;
   display: inline-block;
-  font-size: 4em;
+  font-size: 3em;
   font-weight: 100;
   font-family: "Roboto";
   color: white;
 
 
+}
+.post-skills-button{
+  width: 7rem;
+  height: 2rem;
+  border: 0.1rem solid #b8bfff;
+  border-radius: 10%;
+  margin: 1rem auto;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.post-skills-button:hover{
+  background-color: #b8bfff;
 }
 
 

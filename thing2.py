@@ -9,6 +9,7 @@ import requests, webbrowser
 from xml.etree import ElementTree
 
 from pynput.keyboard import Key, Listener
+import time
 
 #import pyautogui
 
@@ -16,6 +17,8 @@ THRESHOLD = 500
 CHUNK_SIZE = 1024
 FORMAT = pyaudio.paInt16
 RATE = 16000
+
+webpg_name = ""
 
 def is_silent(snd_data):
     "Returns 'True' if below the 'silent' threshold"
@@ -138,7 +141,7 @@ def new_html(webpg_name):
   <title>%s</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/animate.css">
-  <link rel="stylesheet" href="css/font-awesome.css">
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 </head>
@@ -182,16 +185,37 @@ def new_html(webpg_name):
     <div id = 'about' class='about'>
       <h2 class = "heading">ABOUT</h2>
       <h2 class = 'heading'>&#8213;</h2>
-      <img src="img/me.png" align="middle" />
-      <p>
+      
+        
+     
+      <img src="img/me.png" align="middle" id="dp"/> 
+      <input type="file" name="pic" accept="image/*">
+      <input type="submit" onclick="button_press('image')">
+      <p id="missionn-statement">
         Insert Mission Statement Here
       </p>
+      <a href='' class='button-link'><div class='post-skills-button'>
+        <p>Resume! </p>
+      </div></a>
 
     </div>
 
   
 </div>
-
+<script>
+function button_press(inp){
+  console.log($('#fields')["0"].value) 
+  var arr =  $('#fields')["0"].value.split('')
+  if(inp == 'image'){
+    $("#dp").attr("src", arr[2]);
+  }
+  else{
+    $("#resume").attr("src", arr[2]);
+  }
+  
+  
+}
+</script>
 </body>
 </html>
 """ % webpg_name
@@ -245,6 +269,84 @@ def play_audio(path):
     wf.close()
     return
 
+def delete_bg(bg_num):
+    template = """<h2 style='margin: 0; margin-left: 275px'>PICK A BACKGROUND</h2>
+      <div style="text-align: center">
+      <img src='img/1.jpg' style='width: 320px; height: 150px'>
+      <img src='img/2.jpg' style='width: 320px; height: 150px'>
+      <img src='img/3.jpg' style='width: 320px; height: 150px'>
+      </div>
+
+      <div style="text-align: center">
+      <h2 style="display: inline">1</h2>
+      <h2 style="display: inline">2</h2>
+      <h2 style="display: inline">3</h2>
+      </div>
+
+      <div style="text-align: center">
+      <img src='img/4.jpg' style='width: 320px; height: 150px'>
+      <img src='img/5.jpg' style='width: 320px; height: 150px'>
+      <img src='img/6.jpg' style='width: 320px; height: 150px'>
+    </div>
+    
+    <div style="text-align: center">
+      <h2 style="display: inline">4</h2>
+      <h2 style="display: inline">5</h2>
+      <h2 style="display: inline">6</h2>
+    </div>"""
+
+    f = open(webpg_name + '.htm','r+')
+    f.seek(-7,2)
+    message = "<script>$('#home').html("+template+")</script>"
+    f.write(message)
+    f.write('</html>')
+    f.close()
+
+def replace_bg(bg_num): 
+    global webpg_name
+    
+    if(bg_num == 'one' or bg_num == 'one one'):
+        bg_num = '1'
+    elif(bg_num == 'two' or bg_num == 'two two'):
+        bg_num = '2'
+    elif(bg_num == 'three' or bg_num == 'three three'):
+        bg_num = '3'
+    elif(bg_num == 'four' or bg_num == 'for' or bg_num == 'four four'):
+        bg_num = '4'
+    elif(bg_num == 'five' or bg_num == 'five five'):
+        bg_num = '5'
+    elif(bg_num == 'six' or bg_num == 'sex' or bg_num ==  'six six'):
+        bg_num = '6'
+    
+    print(bg_num) 
+    f = open(webpg_name + '.htm','r+')
+    f.seek(0,2)
+    num = f.tell();
+    num -= 9
+    f.seek(num)
+
+    url = "./img/"+bg_num+".jpg"
+    message = "<script>$('html').css({'background': 'url("+url+") no-repeat center center'});$('#home').empty()</script>"
+    f.write(message)
+    f.write('</html>')
+    f.close()
+
+def replace_title(full_name):
+    global webpg_name
+    
+
+    f = open(webpg_name + '.htm','r+')
+    f.seek(0,2)
+    num = f.tell();
+    num -= 7
+    f.seek(num)
+    inner = "<h3 id='title"+'">'+full_name+'"</h3>'
+    
+    message = "<script>$('title').html('"+full_name+"');$('#home').append('"+inner+"')</script>"
+    f.write(message)
+    f.write('</html>')
+    f.close()
+
 def tts(text):
     apiKey2 = "fccfe347ad474720b3f796bb2dbb59b9"
 
@@ -256,7 +358,7 @@ def tts(text):
     path = "/sts/v1.0/issueToken"
 
     # Connect to server to get the Access Token
-    print ("Connect to server to get the Access Token")
+    #print ("Connect to server to get the Access Token")
     conn = http.client.HTTPSConnection(AccessTokenHost)
     conn.request("POST", path, params, headers)
     response = conn.getresponse()
@@ -300,7 +402,7 @@ def tts(text):
     
     #print("The synthesized wave length: %d" %(len(data)))
 
-def stt():
+def stt(convtype):
     play_audio("beep.wav")
     print("Please speak into the microphone:")
     record_to_file('demo2.wav')
@@ -309,7 +411,7 @@ def stt():
 
     apiKey = "fccfe347ad474720b3f796bb2dbb59b9"
 
-    url = '/speech/recognition/interactive/cognitiveservices/v1?language=en-us&format=detailed'
+    url = '/speech/recognition/'+convtype+'/cognitiveservices/v1?language=en-us&format=detailed'
 
     headers = {'Ocp-Apim-Subscription-Key': apiKey, 'Content-type': 'audio/wav; codec=audio/pcm; samplerate=16000'}
 
@@ -331,6 +433,7 @@ def stt():
     if json_data["RecognitionStatus"] != "Success":
         
         conn.close()
+        time.sleep(2)
         main()
     else:
 
@@ -341,7 +444,8 @@ def stt():
    
     
 def main():
-    converted = stt()
+    global webpg_name
+    converted = stt('interactive')
 
     new_data = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/82a89dc2-4a08-4e07-9fc5-d78be0a2df05?subscription-key=8527651763554d578c96a14a4b03c64e&verbose=true&timezoneOffset=0&q="+converted
     
@@ -350,7 +454,7 @@ def main():
     print(r.json())
     
     checking = r.json()["topScoringIntent"]["intent"]
-    #checking = 'AddBG'
+    
     print(checking);
 
     if(checking == "CreateWebpage"):
@@ -362,22 +466,36 @@ def main():
             '''json_data = stt()
 
             converted = json_data["NBest"][0]['Lexical']'''
-            converted = stt()
+            converted = stt('interactive')
             print(converted)
             webpg_name = converted
         new_html(webpg_name)
-        tts('File has been created')
+        tts(webpg_name+' has been created')
 
-    elif checking == "AddBG":
-        tts('Which picture do you pick?')
-        json_data = stt()
+    elif checking == "Background":
+        if(len(r.json()["entities"])>2):
+            bg_num = r.json()["entities"][2]["resolution"]["value"]
+        else:
+            tts('Which picture do I set it to?')
+            bg_num = stt('interactive')
+            print(bg_num)
+            
+        replace_bg(bg_num)
+        
+    elif checking == "Title":
+        if(len(r.json()["entities"])>3):
+            f_name = r.json()["entities"][2]["entity"]
+            l_name = r.json()["entities"][3]["entity"]
+            full_name = f_name+' '+l_name
+        else:
+            tts('Can you repeat the title?')
+            full_name = stt('interactive')
+            print(full_name)
 
-        converted = json_data["NBest"][0]['Lexical']
-        print(converted)
+        replace_title(full_name)
 
-        for i in "123456":
-            if i in converted:
-                print(i)
+    elif checking == "remove_factors":
+        pass
 
     with Listener(on_press=on_press) as listener:
         listener.join()

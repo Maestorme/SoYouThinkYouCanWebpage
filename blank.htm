@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
 
-  <title>hello</title>
+  <title>blank</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/animate.css">
-  
+  <link rel="stylesheet" href="css/font-awesome.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 </head>
@@ -50,34 +50,15 @@
     <div id = 'about' class='about'>
       <h2 class = "heading">ABOUT</h2>
       <h2 class = 'heading'>&#8213;</h2>
-      
-        
-     
-      <img src="img/me.png" align="middle" id="dp"/> 
-      <input type="file" name="pic" accept="image/*">
-      <input type="submit" onclick="button_press('image')">
-      <p id="missionn-statement">
+      <img src="img/me.png" align="middle" />
+      <p>
         Insert Mission Statement Here
       </p>
-      <a href='' class='button-link'><div class='post-skills-button'>
-        <p>Resume! </p>
-      </div></a>
 
     </div>
 
   
 </div>
-function button_press(inp){
-  console.log($('#fields')["0"].value) 
-  var arr =  $('#fields')["0"].value.split('\')
-  if(inp == 'image'){
-    $("#dp").attr("src", arr[2]);
-  }
-  else{
-    $("#resume").attr("src", arr[2]);
-  }
-  
-  
-}
+
 </body>
-<script>$('html').css({'background': 'url(./img/3.jpg) no-repeat center center'});$('#home').empty()</script><script>$('title').html('john wayne');$('#home').append(+inner+)</script></html>
+</html>
