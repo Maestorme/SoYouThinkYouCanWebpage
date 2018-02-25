@@ -1,6 +1,6 @@
 # SoYouThinkYouCanWebpage
 
-Project Team:
+#Project Team:
 
 Karthick Shankar - shankak@purdue.edu
 Worked on the Bing Speech Recognition and the HTML/CSS side of things. Also contributed to writing many python functions for vocal manipulation.
