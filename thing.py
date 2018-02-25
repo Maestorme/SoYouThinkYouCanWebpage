@@ -17,10 +17,10 @@ from xml.etree import ElementTree
 #Note: The way to get api key:
 #Free: https://www.microsoft.com/cognitive-services/en-us/subscriptions?productId=/products/Bing.Speech.Preview
 #Paid: https://portal.azure.com/#create/Microsoft.CognitiveServices/apitype/Bing.Speech/pricingtier/S0
-apiKey = "fccfe347ad474720b3f796bb2dbb59b9"
+apiKey2 = "fccfe347ad474720b3f796bb2dbb59b9"
 
 params = ""
-headers = {"Ocp-Apim-Subscription-Key": apiKey}
+headers = {"Ocp-Apim-Subscription-Key": apiKey2}
 
 #AccessTokenUri = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
 AccessTokenHost = "api.cognitive.microsoft.com"
@@ -48,7 +48,7 @@ voice.set('name', 'Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)
 voice.text = 'This is a demo to call microsoft text to speech service in Python.'
 
 headers = {"Content-type": "application/ssml+xml", 
-			"X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3", 
+			"X-Microsoft-OutputFormat": "riff-16khz-16bit-mono-pcm", 
 			"Authorization": "Bearer " + accesstoken, 
 			"X-Search-AppId": "07D3234E49CE426DAA29772419F436CA", 
 			"X-Search-ClientID": "1ECFAE91408841A480F00935DC390960", 
