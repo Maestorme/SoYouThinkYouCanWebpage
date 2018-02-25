@@ -217,7 +217,7 @@ def main():
     #print(checking);
 
     if(checking == "CreateWebpge"):
-        webpg_name = 'my_html'
+        webpg_name = r.json()["topScoringIntent"]["entity"]
         new_html(webpg_name)
 
 
