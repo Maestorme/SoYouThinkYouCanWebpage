@@ -205,13 +205,13 @@ def main():
     #print(response.read())
     print(response.status, response.reason)  
     json_data = json.loads(response.read())
-    print(json.dumps(json_data, indent=4))
+    #print(json.dumps(json_data, indent=4))
     if json_data["RecognitionStatus"] != "Success":
         main()
     converted = json_data["NBest"][0]['Lexical']
-    new_data = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/82a89dc2-4a08-4e07-9fc5-d78be0a2df05?subscription-key=29647c98e81f4307b5dd2e5e369c9aed&spellCheck=true&bing-spell-check-subscription-key=6e38fbc3d86e4723aae5c6920126f288&verbose=true&timezoneOffset=0&q="+converted
+    new_data = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/82a89dc2-4a08-4e07-9fc5-d78be0a2df05?subscription-key=29647c98e81f4307b5dd2e5e369c9aed&verbose=true&timezoneOffset=0&q="+converted
     r = requests.get(new_data)
-    #print(r.json())
+    print(r.json())
     checking = r.json()["topScoringIntent"]["intent"]
     
     #print(checking);
