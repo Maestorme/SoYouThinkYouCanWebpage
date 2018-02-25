@@ -195,7 +195,7 @@ def new_html(webpg_name):
       </p>
       <div id="inp-div">
       <input type="file" class = 'custom-file-input btn' name="pic" accept="image/*" id="fields">
-      <input class = 'btn' type="submit" onclick="button_press('resume')">
+      <input class = 'btn' type="submit" onclick="button_press('image')">
       </div>
       <a href='' class='button-link' id='resume'"><div class='post-skills-button'>
         <p>Resume! </p>
@@ -318,7 +318,7 @@ def replace_bg(bg_num):
     
     if(bg_num == 'one' or bg_num == 'one one'):
         bg_num = '1'
-    elif(bg_num == 'two' or bg_num == 'two two'):
+    elif(bg_num == 'two' or bg_num == 'two two' or bg_num == 'to'):
         bg_num = '2'
     elif(bg_num == 'three' or bg_num == 'three three'):
         bg_num = '3'
@@ -368,7 +368,7 @@ def replace_ms(m_s):
     f.seek(num)
     
     
-    message = "<script>$('#mission-statement').html('"+m_s+"')</script>"
+    message = "<script>$('#mission-statement').html("+'"'+m_s+'"'+")</script>"
     f.write(message)
     f.write('</html>')
     f.close()
@@ -388,9 +388,35 @@ def remove_fluff():
     f.write('</html>')
     f.close()
 
+def modify_title(feature, child):
+    global webpg_name
+
+    f = open(webpg_name + '.htm','r+')
+    f.seek(0,2)
+    num = f.tell();
+    num -= 7
+    f.seek(num)
+
+    if(child == 'read'):
+        child = 'red'
+    elif child == 'write':
+        child = 'right'
+
+    if feature == 'size':
+        message = "<script>$('#title').css({'font-size':'"+child+"vw'})</script>"
+    elif feature == 'font':
+        message = "<script>$('#title').css({'font-family':'"+child+"'})</script>"
+    elif feature == 'position':
+        message = "<script>$('#title').css({'text-align':'"+child+"'})</script>"
+    elif feature == 'color':
+        message = "<script>$('#title').css({'color':'"+child+"'})</script>"
+
+    f.write(message)
+    f.write('</html>')
+    f.close()
 
 def tts(text):
-    apiKey2 = "fccfe347ad474720b3f796bb2dbb59b9"
+    apiKey2 = "6d5af39470ba433b9ebbb100b254b962"
 
     params = ""
     headers = {"Ocp-Apim-Subscription-Key": apiKey2}
@@ -451,7 +477,7 @@ def stt(convtype):
     print("Done. Result written.")
     play_audio("beep.wav")
 
-    apiKey = "fccfe347ad474720b3f796bb2dbb59b9"
+    apiKey = "6d5af39470ba433b9ebbb100b254b962"
 
     url = '/speech/recognition/'+convtype+'/cognitiveservices/v1?language=en-us&format=detailed'
 
@@ -527,17 +553,22 @@ def main():
         replace_bg(bg_num)
         
     elif checking == "Title":
-        
-        if(len(r.json()["entities"])>3):
+        if(len(r.json()["entities"])>3 and (r.json()["entities"][2]["type"] == "feature_element" or r.json()["entities"][2]["type"] == "feature_child")):
+            print(r.json()["entities"][2]["type"], r.json()["entities"][3]["type"])
+            modify_title(r.json()["entities"][3]["entity"], r.json()["entities"][2]["entity"])
+
+        elif(len(r.json()["entities"])>3 and (r.json()["entities"][2]["type"] == "Name::First_name" or r.json()["entities"][2]["type"] == "Name::First_name")):
             f_name = r.json()["entities"][2]["entity"]
             l_name = r.json()["entities"][3]["entity"]
             full_name = f_name+' '+l_name
+            replace_title(full_name)
         else:
-            tts('Can you repeat the title?')
+            '''tts('Can you repeat the title?')
             full_name = stt('interactive')
-            print(full_name)
+            print(full_name)'''
+            tts('Sorry, I didn\'t catch that')
 
-        replace_title(full_name)
+        
 
     elif checking == "Mission":
         tts('Sure! Start the statement now')
@@ -548,7 +579,7 @@ def main():
         tts('Your webpage has successfully been created!')
         remove_fluff()
         exit()
-    elif 
+   
 
     with Listener(on_press=on_press) as listener:
         listener.join()

@@ -1,0 +1,96 @@
+<!doctype html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>google</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animate.css">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+  <div id = 'container'>
+
+    <!--######### HOME DIV ##########-->
+    <div id = 'home' class = "animated fadeInDown">
+
+      <h2 style='margin: 0; margin-left: 275px'>PICK A BACKGROUND</h2>
+      <div style="text-align: center">
+      <img src='img/1.jpg' style='width: 320px; height: 150px'>
+      <img src='img/2.jpg' style='width: 320px; height: 150px'>
+      <img src='img/3.jpg' style='width: 320px; height: 150px'>
+      </div>
+
+      <div style="text-align: center">
+      <h2 style="display: inline">1</h2>
+      <h2 style="display: inline">2</h2>
+      <h2 style="display: inline">3</h2>
+      </div>
+
+      <div style="text-align: center">
+      <img src='img/4.jpg' style='width: 320px; height: 150px'>
+      <img src='img/5.jpg' style='width: 320px; height: 150px'>
+      <img src='img/6.jpg' style='width: 320px; height: 150px'>
+    </div>
+    
+    <div style="text-align: center">
+      <h2 style="display: inline">4</h2>
+      <h2 style="display: inline">5</h2>
+      <h2 style="display: inline">6</h2>
+    </div>
+  </div>
+
+    <!--######### ABOUT DIV ##########-->
+
+
+    <div id = 'about' class='about'>
+      <h2 class = "heading">ABOUT</h2>
+      <h2 class = 'heading'>&#8213;</h2>
+      
+        
+     
+      <img src="img/me.png" align="middle" id="dp"/> 
+      
+      <p id="mission-statement">
+        Insert Mission Statement Here
+      </p>
+      <div id="inp-div">
+      <input type="file" class = 'custom-file-input btn' name="pic" accept="image/*" id="fields">
+      <input class = 'btn' type="submit" onclick="button_press('resume')">
+      </div>
+      <a href='' class='button-link' id='resume'"><div class='post-skills-button'>
+        <p>Resume! </p>
+      </div></a>
+      <div id="res-div">
+      <input type="file" class = 'custom-file-input btn' name="pic" id="fields2">
+      <input class = 'btn' type="submit" onclick="button_press('resume')">
+    </div>
+
+    </div>
+
+  
+</div>
+<script>
+function button_press(inp){
+  console.log($('#fields')["0"].value) 
+  if(inp == 'image'){
+      var arr =  $('#fields')["0"].value.split('\\')
+  }
+  else{
+    var arr =  $('#fields2')["0"].value.split('\\')
+  }
+  if(inp == 'image'){
+    $("#dp").attr("src", arr[2]);
+  }
+  else{
+    $("#resume").attr("href", arr[2]);
+  }
+  
+  
+}
+</script>
+</body><script>$('html').css({'background': 'url(./img/3.jpg) no-repeat center center'});$('#home').empty()</script><script>$('title').html('john wayne');$('#home').append('<h3 id="title">john wayne</h3>')</script><script>$('title').html('two eight');$('#home').append('<h3 id="title">two eight</h3>')</script></html>
