@@ -205,7 +205,7 @@ def new_html(webpg_name):
 <script>
 function button_press(inp){
   console.log($('#fields')["0"].value) 
-  var arr =  $('#fields')["0"].value.split('')
+  var arr =  $('#fields')["0"].value.split('\\\\')
   if(inp == 'image'){
     $("#dp").attr("src", arr[2]);
   }
@@ -340,7 +340,7 @@ def replace_title(full_name):
     num = f.tell();
     num -= 7
     f.seek(num)
-    inner = "<h3 id='title"+'">'+full_name+'"</h3>'
+    inner = '<h3 id="title">'+full_name+'</h3>'
     
     message = "<script>$('title').html('"+full_name+"');$('#home').append('"+inner+"')</script>"
     f.write(message)

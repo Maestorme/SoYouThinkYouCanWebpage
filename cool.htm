@@ -67,9 +67,10 @@
 
   
 </div>
+<script>
 function button_press(inp){
   console.log($('#fields')["0"].value) 
-  var arr =  $('#fields')["0"].value.split('\')
+  var arr =  $('#fields')["0"].value.split('\\')
   if(inp == 'image'){
     $("#dp").attr("src", arr[2]);
   }
@@ -79,9 +80,6 @@ function button_press(inp){
   
   
 }
+</script>
 </body>
-<script>
-$('html').css({'background': 'url(./img/5.jpg) no-repeat center center'});$('#home').empty()</script>
-<script>
-  $('title').html('john wayne');$('#home').append('<h3 id='title'>john wayne</h3>'')</script>
-  </html>
+<script>$('html').css({'background': 'url(./img/1.jpg) no-repeat center center'});$('#home').empty()</script><script>$('title').html('bruce wayne');$('#home').append('<h3 id="title">bruce wayne</h3>')</script></html>
