@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:100|Roboto:100|VT323|Cinzel');
+
+@font-face {
+  font-family: 'Glober';
+  src: url('../fonts/glober.otf');
+}
+
+
+html {
+  height: 100%;
+  margin: 0;
+  /*background: url(../img/bg.gif) no-repeat center center;*/
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body {
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+}
+
+.bg {
+  min-width: 100%;
+  min-height: 100%;
+  position: fixed;
+  z-index: -1;
+
+}
+
+#container {
+  min-height: 100%;
+  min-width: 100%;
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+}
+#home {
+  width: 100%;
+  min-height: 100%;
+  opacity: 1;
+  background-color: black;
+  padding-top: 6em;
+  margin-bottom: 0;
+}
+
+
+#home img{
+  margin: 0;
+}
+
+#home h1{
+  font-family: 'Glober', 'roboto', sans-serif;
+  color: white;
+  margin: 150px;
+  width: 500px;
+  border: 0;
+  text-align: center;
+}
+
+#home h2{
+  font-family: 'Glober', 'roboto', sans-serif;
+  color: white;
+  margin: 150px;
+  width: 500px;
+  border: 0;
+}
+#about,#projects, #skills{
+  width: 100%;
+  min-height: 100%;
+  padding-top: 3.5em;
+  display: inline-block;
+  background-color: #3e3e3e
+}
+
+
+#title {
+  margin: 0px;
+  padding-top: 0px;
+  text-align: center;
+  font-family: 'Glober', sans-serif;
+  color: white;
+  font-size: 5.2vw;
+  letter-spacing: 10px;
+  font-weight: 100;
+  -webkit-animation:  hue 60s infinite linear
+}
+
+#page-text {
+  margin: 0px;
+  padding-top: 35vh;
+  text-align: center;
+  font-family: 'Glober', 'roboto', sans-serif;
+  color: white;
+  font-size: 2.1vw;
+  font-weight: 100;
+}
+
+#line-elements {
+  text-align: center;
+}
+
+#line-elements h6{
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  display: inline-block;
+  font-size: 1.6vw;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  font-weight: 100;
+}
+
+
+#line-elements h5{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 1.6vw;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  font-weight: 100;
+}
+
+
+
+
+
+.heading {
+
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  font-size: 3.5em;
+  font-weight: 100;
+  color: white;
+  margin: 0;
+
+
+}
+
+
+
+.about {
+  position: relative;
+  /*background-image: ADD SOMETHING FOR THE BREAK BETWEEN TWO DIVS AS IT LOOKS UGLY*/
+  pointer-events: none;  /*THIS LINE IS TO CLICK THROUGH THE DIV AND CLICK ON SOMETHING UNDERNEATH IT*/
+  box-shadow: 0px 1px 20px -20px #2b3c51;
+}
+.about img {
+  padding-left: 8em;
+  padding-top: 4em;
+  padding-right: 2em;
+  display: inline-block;
+}
+
+.about p{
+  margin: 0;
+  display: inline-block;
+  font-size: 4em;
+  font-weight: 100;
+  font-family: "Roboto";
+  color: white;
+
+
+}
+
+
+
+@-webkit-keyframes hue {
+  from {
+    -webkit-filter: hue-rotate(0deg);
+  }
+
+  to {
+    -webkit-filter: hue-rotate(-360deg);
+  }
+}
+

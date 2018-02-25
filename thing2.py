@@ -9,6 +9,7 @@ import requests, webbrowser
 from xml.etree import ElementTree
 
 from pynput.keyboard import Key, Listener
+
 #import pyautogui
 
 THRESHOLD = 500
@@ -129,10 +130,71 @@ def record_to_file(path):
 def new_html(webpg_name):
     f = open(webpg_name + '.htm','w')
 
-    message = """<html>
-    <head><title>%s</title></head>
-    <body><p>Hello World!</p></body>
-    </html>""" % webpg_name
+    message = """<!doctype html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>%s</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/font-awesome.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+  <div id = 'container'>
+
+    <!--######### HOME DIV ##########-->
+    <div id = 'home' class = "animated fadeInDown">
+
+      <h2 style='margin: 0; margin-left: 275px'>PICK A BACKGROUND</h2>
+      <div style="text-align: center">
+      <img src='img/1.jpg' style='width: 320px; height: 150px'>
+      <img src='img/2.jpg' style='width: 320px; height: 150px'>
+      <img src='img/3.jpg' style='width: 320px; height: 150px'>
+      </div>
+
+      <div style="text-align: center">
+      <h2 style="display: inline">1</h2>
+      <h2 style="display: inline">2</h2>
+      <h2 style="display: inline">3</h2>
+      </div>
+
+      <div style="text-align: center">
+      <img src='img/4.jpg' style='width: 320px; height: 150px'>
+      <img src='img/5.jpg' style='width: 320px; height: 150px'>
+      <img src='img/6.jpg' style='width: 320px; height: 150px'>
+    </div>
+    
+    <div style="text-align: center">
+      <h2 style="display: inline">4</h2>
+      <h2 style="display: inline">5</h2>
+      <h2 style="display: inline">6</h2>
+    </div>
+  </div>
+
+    <!--######### ABOUT DIV ##########-->
+
+
+    <div id = 'about' class='about'>
+      <h2 class = "heading">ABOUT</h2>
+      <h2 class = 'heading'>&#8213;</h2>
+      <img src="img/me.png" align="middle" />
+      <p>
+        Insert Mission Statement Here
+      </p>
+
+    </div>
+
+  
+</div>
+
+</body>
+</html>
+""" % webpg_name
 
     f.write(message)
     f.close()
@@ -235,78 +297,91 @@ def tts(text):
     conn.close()
 
     play_audio('tts.wav')
-    time.sleep(2)
+    
     #print("The synthesized wave length: %d" %(len(data)))
 
-def main():
+def stt():
     play_audio("beep.wav")
-    time.sleep(2)
-    print("please speak a word into the microphone")
+    print("Please speak into the microphone:")
     record_to_file('demo2.wav')
-    print("done - result written to demo.wav")
+    print("Done. Result written.")
     play_audio("beep.wav")
 
     apiKey = "fccfe347ad474720b3f796bb2dbb59b9"
 
     url = '/speech/recognition/interactive/cognitiveservices/v1?language=en-us&format=detailed'
+
     headers = {'Ocp-Apim-Subscription-Key': apiKey, 'Content-type': 'audio/wav; codec=audio/pcm; samplerate=16000'}
 
     f = open('demo2.wav', "rb")
     data = f.read()
     f.close()
+
     conn = http.client.HTTPSConnection("speech.platform.bing.com")
 
-
     conn.request("POST", url, data, headers)
-    
 
     response = conn.getresponse()
     #print(response.read())
-    print(response.status, response.reason)  
-    json_data = json.loads(response.read())
-    #print(json.dumps(json_data, indent=4))
-    if json_data["RecognitionStatus"] != "Success":
-        time.sleep(3)
-        main()
+    print(response.status, response.reason) 
 
-    converted = json_data["NBest"][0]['Lexical']
-    new_data = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/82a89dc2-4a08-4e07-9fc5-d78be0a2df05?subscription-key=8527651763554d578c96a14a4b03c64e&verbose=true&timezoneOffset=0&q="+converted
-    r = requests.get(new_data)
-    print(r.json())
-    checking = r.json()["topScoringIntent"]["intent"]
+    json_data = json.loads(response.read())
+
+    print(json.dumps(json_data, indent=4))
+    if json_data["RecognitionStatus"] != "Success":
+        
+        conn.close()
+        main()
+    else:
+
+        converted = json_data["NBest"][0]['Lexical']
     
+    return converted
+    
+   
+    
+def main():
+    converted = stt()
+
+    new_data = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/82a89dc2-4a08-4e07-9fc5-d78be0a2df05?subscription-key=8527651763554d578c96a14a4b03c64e&verbose=true&timezoneOffset=0&q="+converted
+    
+    r = requests.get(new_data)
+    
+    print(r.json())
+    
+    checking = r.json()["topScoringIntent"]["intent"]
+    #checking = 'AddBG'
     print(checking);
 
     if(checking == "CreateWebpage"):
         if(len(r.json()["entities"])>0):
             webpg_name = r.json()["entities"][0]["entity"]
         else:
-            tts('Please mention the name for the file.')
+            tts('What should I call it?')
 
-            print("please speak a word into the microphone")
-            record_to_file('demo2.wav')
-            print("done - result written to demo.wav")
+            '''json_data = stt()
 
-
-            f = open('demo2.wav', "rb")
-            data = f.read()
-            f.close()
-
-            conn.request("POST", url, data, headers)
-            
-
-            response = conn.getresponse()
-            #print(response.read())
-            print(response.status, response.reason)  
-            json_data = json.loads(response.read())
-
-            converted = json_data["NBest"][0]['Lexical']
+            converted = json_data["NBest"][0]['Lexical']'''
+            converted = stt()
             print(converted)
             webpg_name = converted
         new_html(webpg_name)
+        tts('File has been created')
 
+    elif checking == "AddBG":
+        tts('Which picture do you pick?')
+        json_data = stt()
+
+        converted = json_data["NBest"][0]['Lexical']
+        print(converted)
+
+        for i in "123456":
+            if i in converted:
+                print(i)
 
     with Listener(on_press=on_press) as listener:
         listener.join()
+
+
 
 main()
