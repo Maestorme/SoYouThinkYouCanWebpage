@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>cool</title>
+  <title>new</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/animate.css">
   
@@ -60,11 +60,15 @@
       </p>
       <div id="inp-div">
       <input type="file" class = 'custom-file-input btn' name="pic" accept="image/*" id="fields">
-      <input class = 'btn' type="submit" onclick="button_press('image')">
+      <input class = 'btn' type="submit" onclick="button_press('resume')">
       </div>
-      <a href='' class='button-link' id='resume'><div class='post-skills-button'>
+      <a href='' class='button-link' id='resume'"><div class='post-skills-button'>
         <p>Resume! </p>
       </div></a>
+      <div id="res-div">
+      <input type="file" class = 'custom-file-input btn' name="pic" id="fields2">
+      <input class = 'btn' type="submit" onclick="button_press('resume')">
+    </div>
 
     </div>
 
@@ -73,16 +77,20 @@
 <script>
 function button_press(inp){
   console.log($('#fields')["0"].value) 
-  var arr =  $('#fields')["0"].value.split('\\')
+  if(inp == 'image'){
+      var arr =  $('#fields')["0"].value.split('\\')
+  }
+  else{
+    var arr =  $('#fields2')["0"].value.split('\\')
+  }
   if(inp == 'image'){
     $("#dp").attr("src", arr[2]);
   }
   else{
-    $("#resume").attr("src", arr[2]);
+    $("#resume").attr("href", arr[2]);
   }
   
   
 }
 </script>
-</body>
-<script>$('html').css({'background': 'url(./img/5.jpg) no-repeat center center'});$('#home').empty()</script><script>$('title').html('bruce wayne');$('#home').append('<h3 id="title">bruce wayne</h3>')</script></html>
+</body></<script>$('title').html('bruce wayne');$('#home').append('<h3 id="title">bruce wayne</h3>')</script></html>

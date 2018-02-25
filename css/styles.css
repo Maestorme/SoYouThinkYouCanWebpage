@@ -11,6 +11,11 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  font-family: 'roboto', sans-serif;
+}
+input{
+  margin: 0px;
+  padding: 0px
 }
 
 body {
@@ -152,22 +157,52 @@ body {
   padding-top: 4em;
   padding-right: 2em;
   display: inline-block;
+  width: 10rem;
+  height: 10rem;
+  margin-right: 100px;
 }
 
 .about p{
   margin: 0;
+  
   display: inline-block;
-  font-size: 3em;
+  font-size: 4em;
   font-weight: 100;
   font-family: "Roboto";
   color: white;
 
-
 }
+
+#mission-statement{
+  float: right;
+  margin-top: 100px;
+  margin-right: 100px;
+  width: 500px;
+  font-size: 1.8em
+}
+
+#inp-div{
+  margin: 10px;
+  margin-left: 50px;
+  padding: 0px;
+  border: 1px white solid;
+  width: 320px;
+}
+
+#res-div{
+  margin: 10px auto;
+  
+  padding: 0px;
+  border: 1px white solid;
+  width: 320px;
+}
+
+
 .post-skills-button{
+  
   width: 7rem;
   height: 2rem;
-  border: 0.1rem solid #b8bfff;
+  border: 0.1rem solid white;
   border-radius: 10%;
   margin: 1rem auto;
   text-align: center;
@@ -175,7 +210,21 @@ body {
 }
 
 .post-skills-button:hover{
-  background-color: #b8bfff;
+  background-color: white;
+ 
+}
+
+.post-skills-button p{
+  color: white;
+  font-family: "Roboto", "Lato", sans-serif;
+  font-weight: 100;
+  font-size: 1.2rem;
+  transition: all 0.2s ease-in-out;
+  margin-top: 0.1rem;
+}
+.post-skills-button:hover p{
+  color: black;
+  font-weight: 500;
 }
 
 
@@ -190,3 +239,74 @@ body {
   }
 }
 
+
+
+.btn {
+  font-family: 'roboto', sans-serif;
+  font-size: 1em;
+  position: relative;
+
+  display: block;
+  margin: 5px auto;
+  padding: 0;
+  min-width: 80px;
+
+  overflow: hidden;
+
+  border-width: 0;
+  outline: none;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+  
+  background-color: gray;
+  color: #ecf0f1;
+  
+  transition: all .3s;
+}
+
+.btn:hover, .btn:focus {
+  background-color: white;
+  color: black;
+}
+
+.btn > * {
+  position: relative;
+}
+
+.btn span {
+  display: block;
+  padding: 24px 36px;
+}
+
+.btn:before {
+  content: "";
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  
+  display: block;
+  width: 0;
+  padding-top: 0;
+    
+  border-radius: 100%;
+  
+  background-color: rgba(236, 240, 241, .3);
+  
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.btn:active:before {
+  width: 120%;
+  padding-top: 120%;
+  
+  transition: width .2s ease-out, padding-top .2s ease-out;
+}
+
+ .custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}

@@ -189,14 +189,21 @@ def new_html(webpg_name):
         
      
       <img src="img/me.png" align="middle" id="dp"/> 
-      <input type="file" name="pic" accept="image/*">
-      <input type="submit" onclick="button_press('image')">
-      <p id="missionn-statement">
+      
+      <p id="mission-statement">
         Insert Mission Statement Here
       </p>
-      <a href='' class='button-link'><div class='post-skills-button'>
+      <div id="inp-div">
+      <input type="file" class = 'custom-file-input btn' name="pic" accept="image/*" id="fields">
+      <input class = 'btn' type="submit" onclick="button_press('resume')">
+      </div>
+      <a href='' class='button-link' id='resume'"><div class='post-skills-button'>
         <p>Resume! </p>
       </div></a>
+      <div id="res-div">
+      <input type="file" class = 'custom-file-input btn' name="pic" id="fields2">
+      <input class = 'btn' type="submit" onclick="button_press('resume')">
+    </div>
 
     </div>
 
@@ -205,19 +212,23 @@ def new_html(webpg_name):
 <script>
 function button_press(inp){
   console.log($('#fields')["0"].value) 
-  var arr =  $('#fields')["0"].value.split('\\\\')
+  if(inp == 'image'){
+      var arr =  $('#fields')["0"].value.split('\\\\')
+  }
+  else{
+    var arr =  $('#fields2')["0"].value.split('\\\\')
+  }
   if(inp == 'image'){
     $("#dp").attr("src", arr[2]);
   }
   else{
-    $("#resume").attr("src", arr[2]);
+    $("#resume").attr("href", arr[2]);
   }
   
   
 }
 </script>
-</body>
-</html>
+</body></html>
 """ % webpg_name
 
     f.write(message)
@@ -347,6 +358,37 @@ def replace_title(full_name):
     f.write('</html>')
     f.close()
 
+def replace_ms(m_s):
+    global webpg_name
+
+    f = open(webpg_name + '.htm','r+')
+    f.seek(0,2)
+    num = f.tell();
+    num -= 7
+    f.seek(num)
+    
+    
+    message = "<script>$('#mission-statement').html('"+m_s+"')</script>"
+    f.write(message)
+    f.write('</html>')
+    f.close()
+
+def remove_fluff():
+    global webpg_name
+
+    f = open(webpg_name + '.htm','r+')
+    f.seek(0,2)
+    num = f.tell();
+    num -= 7
+    f.seek(num)
+    
+    
+    message = "<script>$('#inp-div').empty();$('#res-div').empty()</script>"
+    f.write(message)
+    f.write('</html>')
+    f.close()
+
+
 def tts(text):
     apiKey2 = "fccfe347ad474720b3f796bb2dbb59b9"
 
@@ -435,6 +477,8 @@ def stt(convtype):
         conn.close()
         time.sleep(2)
         main()
+    elif convtype == 'dictation':
+        converted = json_data["NBest"][0]['Display']
     else:
 
         converted = json_data["NBest"][0]['Lexical']
@@ -483,6 +527,7 @@ def main():
         replace_bg(bg_num)
         
     elif checking == "Title":
+        
         if(len(r.json()["entities"])>3):
             f_name = r.json()["entities"][2]["entity"]
             l_name = r.json()["entities"][3]["entity"]
@@ -494,8 +539,16 @@ def main():
 
         replace_title(full_name)
 
-    elif checking == "remove_factors":
-        pass
+    elif checking == "Mission":
+        tts('Sure! Start the statement now')
+        m_s = stt('dictation')
+        print(m_s)
+        replace_ms(m_s)
+    elif checking == "Fin":
+        tts('Your webpage has successfully been created!')
+        remove_fluff()
+        exit()
+    elif 
 
     with Listener(on_press=on_press) as listener:
         listener.join()
